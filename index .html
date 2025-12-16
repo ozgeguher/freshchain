@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🌶️ FreshChain – Food Traceability</title>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="script.js"></script>
+
+<style>
+:root{
+  --pink:#ff4f9a;
+  --pink-dark:#e63c85;
+  --bg:#fff5f9;
+  --card:#ffffff;
+}
+
+body{
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  padding:20px;
+}
+
+h1{
+  text-align:center;
+  color:#c6002b;
+}
+
+.card{
+  background:var(--card);
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  background:linear-gradient(135deg,var(--pink),var(--pink-dark));
+  color:white;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+input,select{
+  width:100%;
+  padding:8px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid #ffd0e4;
+}
+
+pre{
+  background:#fff0f7;
+  padding:12px;
+  border-radius:12px;
+}
+
+.badge{
+  background:#ffe3f0;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+}
+
+.qr-box{
+  display:flex;
+  justify-content:center;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌶️ FreshChain – Blockchain Food Traceability</h1>
+
+<div class="card">
+  <button onclick="connectWallet()">🦊 Connect MetaMask</button>
+  <p id="wallet">Wallet: Not connected</p>
+</div>
+
+<div class="card">
+  <h3>👑 Admin – Register Roles</h3>
+  <input id="roleAddress" placeholder="Wallet address">
+  <button onclick="registerProducer()">🌾 Register Producer</button>
+  <button onclick="registerTransporter()">🚚 Register Transporter</button>
+  <button onclick="registerDistributor()">🏬 Register Distributor</button>
+  <button onclick="registerRetailer()">🛒 Register Retailer</button>
+</div>
+
+<div class="card">
+  <h3>🌾 Producer – Create Batch</h3>
+  <input id="batchId" placeholder="Batch ID">
+  <input id="productName" placeholder="Product Name">
+  <input id="quantity" placeholder="Quantity">
+  <button onclick="createBatch()">📦 Create Batch</button>
+</div>
+
+<div class="card">
+  <h3>🚚 Transporter – Add Sensor Data</h3>
+  <input id="sBatchId" placeholder="Batch ID">
+  <input id="temp" placeholder="Temperature">
+  <input id="hum" placeholder="Humidity">
+  <input id="loc" placeholder="Location">
+  <button onclick="addSensor()">🌡️ Add Sensor Data</button>
+</div>
+
+<div class="card">
+  <h3>🛒 Retailer – Arrival</h3>
+  <input id="rBatchId" placeholder="Batch ID">
+  <select id="inspection">
+    <option value="true">✅ Passed</option>
+    <option value="false">❌ Failed</option>
+  </select>
+  <button onclick="markArrived()">📍 Mark As Arrived</button>
+</div>
+
+<div class="card">
+  <h3>👤 Customer – View Batch <span class="badge">Read Only</span></h3>
+  <input id="vBatchId" placeholder="Batch ID">
+  <button onclick="viewBatch()">🔍 View Batch</button>
+  <pre id="output"></pre>
+</div>
+
+<div class="card">
+  <h3>📱 QR Code Access <span class="badge">Customer</span></h3>
+  <p>Scan QR code to view blockchain history (read-only).</p>
+
+  <div class="qr-box">
+    <img
+      src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=http://localhost:8000/index.html?batchId=2025"
+      alt="Batch QR">
+  </div>
+
+  <pre>
+QR → Batch ID: 2025
+Access: Read-only customer view
+  </pre>
+</div>
+
+</body>
+</html>
